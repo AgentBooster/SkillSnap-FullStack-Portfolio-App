@@ -1,0 +1,28 @@
+@page "/skills"
+@using SkillSnap.Api.Models
+@inject SkillSnap.Client.Services.SkillService SkillService
+
+<h3>Skills</h3>
+
+@if (skills == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="d-flex flex-wrap gap-2">
+        @foreach (var skill in skills)
+        {
+            <span class="badge bg-primary fs-6">@skill.Name (@skill.Level)</span>
+        }
+    </div>
+}
+
+@code {
+    private List<Skill> skills;
+
+    protected override async Task OnInitializedAsync()
+    {
+        skills = await SkillService.GetSkillsAsync();
+    }
+}

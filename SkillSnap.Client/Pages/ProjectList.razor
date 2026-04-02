@@ -1,0 +1,36 @@
+@page "/projects"
+@using SkillSnap.Api.Models
+@inject SkillSnap.Client.Services.ProjectService ProjectService
+
+<h3>Projects</h3>
+
+@if (projects == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        @foreach (var project in projects)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="@project.ImageUrl" class="card-img-top" alt="@project.Title">
+                    <div class="card-body">
+                        <h5 class="card-title">@project.Title</h5>
+                        <p class="card-text">@project.Description</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<Project> projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await ProjectService.GetProjectsAsync();
+    }
+}
